@@ -40,7 +40,7 @@ button {
 }
 
 .book{
-  width: 750px;
+  width: auto;
   height: auto;
   border: 1px solid black;
   margin: 10px;
