@@ -2,6 +2,7 @@ import "./App.css";
 import { useState } from "react";
 import Axios from "axios";
 import axios from "axios";
+import { MdSearch } from 'react-icons/md';
 
 function App() {
   //states
@@ -10,6 +11,7 @@ function App() {
   const [year, setYear] = useState(0);
   const [image, setImage] = useState("");
   const [newTitle, setNewTitle] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
 
   const [bookList, setBookList] = useState([]);
   //events
@@ -41,7 +43,7 @@ function App() {
   const updateBookTitle = (id) => {
     Axios.put("http://localhost:3001/update", {
       title: newTitle,
-      id:id
+      id: id
     }).then((response) => {
       setBookList(bookList.map((val) => {
         return val.id == id ? {
@@ -93,21 +95,34 @@ function App() {
         />
         <button onClick={addBook}>Add Book</button>
         -----------------------------------------
+        <div className="searchBook">
+          <MdSearch className='search-icons' size='1.3em' />
+          <input type='text' placeholder='type to search...' onChange={(event) => {
+            setSearchTerm(event.target.value)
+          }} />
+        </div>
         <div className="books">
           <button onClick={getBooks}>Show Books</button>
         </div>
-        {bookList.map((value, key) => {
+        {bookList.filter((val) => {
+          if (searchTerm == "") {
+            return val
+          }
+          else if (val.title.toLowerCase().includes(searchTerm.toLocaleLowerCase())) {
+            return val
+          }
+        }).map((value, key) => {
           return (
             <div className="book">
-              
+
               <h3>
                 Title:<br></br>
-                {value.title}                
+                {value.title}
               </h3>
               <div>
                 <input type='text' onChange={(event) => {
                   setNewTitle(event.target.value);
-                }}/>
+                }} />
                 <button onClick={() => {
                   updateBookTitle(value.id)
                 }}>update</button>
@@ -124,8 +139,8 @@ function App() {
                 Image:<br></br>
                 {value.image}
               </h3>
-              </div>
-            
+            </div>
+
           );
         })}
       </div>
