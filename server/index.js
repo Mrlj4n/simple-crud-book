@@ -43,6 +43,21 @@ app.get("/books", (req, res) => {
   });
 });
 
+//  app.post("/books/title?=", val, (req,res) => {
+//   //  const title = req.body.title;
+  
+//    db.query("SELECT * FROM books WHERE title LIKE ?", [val], (err,result) =>{
+//      if(err)
+//      {
+//        console.log(err);
+//      }
+//      else{
+//        res.send(result);
+//      }
+//    })
+
+//  })
+
 app.put("/update", (req, res) => {
   const id = req.body.id;
   const title = req.body.title;

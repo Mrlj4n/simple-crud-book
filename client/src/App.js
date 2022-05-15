@@ -21,6 +21,12 @@ function App() {
     });
   };
 
+  const getBookTitle = (title) => {
+    Axios.get("http://localhost:3001/books/title?=").then((response) => {
+      setBookList(response.data);
+    });
+  };
+
   const addBook = () => {
     Axios.post("http://localhost:3001/create", {
       title: title,
@@ -96,10 +102,10 @@ function App() {
         <button onClick={addBook}>Add Book</button>
         -----------------------------------------
         <div className="searchBook">
-          <MdSearch className='search-icons' size='1.3em' />
-          <input type='text' placeholder='type to search...' onChange={(event) => {
+          <input type='text' placeholder='type to search title...' onChange={(event) => {
             setSearchTerm(event.target.value)
           }} />
+          <MdSearch className='search-icons' size='2em' />
         </div>
         <div className="books">
           <button onClick={getBooks}>Show Books</button>
@@ -108,7 +114,7 @@ function App() {
           if (searchTerm == "") {
             return val
           }
-          else if (val.title.toLowerCase().includes(searchTerm.toLocaleLowerCase())) {
+          else if (val.title.toLowerCase().includes(searchTerm.toLowerCase())) {
             return val
           }
         }).map((value, key) => {
